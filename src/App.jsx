@@ -1,35 +1,35 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState } from "react";
+import Sidebar from "./components/Sidebar.jsx";
+import TaskList from "./components/TaskList.jsx";
+import AddTaskModal from "./components/AddTaskModal.jsx";
+import './App.css';
+
+const initialTasks = [
+    { id:1, title: "Ir de compras", dueDate: "Vence hoy" },
+    { id:2, title: "Regreso de libro en biblioteca", dueDate: "Vence mañana" },
+    { id:3, title: "Recibos", dueDate: "Vence en 2 días" },
+    { id:4, title: "Plan de vacacion", dueDate: "Vence en 4 días" },
+    { id:5, title: "Renovar suscripcion", dueDate: "Vence mañana" }
+];
 
 function App() {
-  const [count, setCount] = useState(0)
+    const [tasks, setTasks] = useState(initialTasks);
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
-  return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    const handleOpenModal = () => setIsModalOpen(true);
+    const handleCloseModal = () => setIsModalOpen(false);
+
+    const handleAddTask = (newTask) => {
+        setTasks(prevTask => [newTask, ...prevTask]);
+    }
+
+    return (
+        <div className="app-container">
+            <Sidebar/>
+            <TaskList tasks={tasks} onAddTaskClick={handleOpenModal} />
+            {isModalOpen && <AddTaskModal onClose={handleCloseModal} onAddTask={handleAddTask} />}
+        </div>
+    );
 }
 
-export default App
+export default App;

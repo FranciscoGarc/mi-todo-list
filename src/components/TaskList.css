@@ -1,0 +1,70 @@
+/* src/components/TaskList.css */
+
+.task-list-container {
+    flex-grow: 1; /* ¡Importante! Hace que este contenedor ocupe todo el espacio sobrante */
+    padding: 32px;
+    background-color: #121212; /* Mantenemos el fondo oscuro principal */
+}
+
+.task-list-header {
+    display: flex;
+    justify-content: space-between; /* Pone el título a la izquierda y el botón a la derecha */
+    align-items: center; /* Los alinea verticalmente en el centro */
+    margin-bottom: 24px;
+}
+
+.task-list-header h2 {
+    font-size: 1.8rem;
+    color: #EAEAEA;
+}
+
+.add-task-button {
+    background-color: #252525;
+    color: #EAEAEA;
+    border: 1px solid #444;
+    padding: 10px 16px;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px; /* Espacio entre el texto y la flecha */
+}
+
+.tasks-ul {
+    list-style: none;
+}
+
+.task-item {
+    display: flex;
+    align-items: center;
+    background-color: #1E1E1E;
+    padding: 16px;
+    border-radius: 8px;
+    margin-bottom: 12px;
+    border: 1px solid #333;
+}
+
+.task-item input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+    margin-right: 16px;
+    cursor: pointer;
+}
+
+.task-details {
+    display: flex;
+    flex-direction: column;
+}
+
+.task-title {
+    color: #EAEAEA;
+    font-size: 1rem;
+}
+
+.task-due-date {
+    color: #888;
+    font-size: 0.85rem;
+    margin-top: 4px;
+}
