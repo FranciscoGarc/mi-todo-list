@@ -1,7 +1,7 @@
 /* src/components/TaskList.css */
 
 .task-list-container {
-    flex-grow: 1; /* ¡Importante! Hace que este contenedor ocupe todo el espacio sobrante */
+    flex-grow: 1;
     padding: 32px;
     background-color: #121212; /* Mantenemos el fondo oscuro principal */
 }
