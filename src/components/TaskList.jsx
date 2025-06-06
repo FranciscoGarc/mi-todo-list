@@ -1,6 +1,7 @@
 import './TaskList.css'
+import  TaskItem from './TaskItem'
 
-function TaskList({ tasks, onAddTaskClick }) {
+function TaskList({ tasks, onAddTaskClick, onToggleTask}) {
     return (
         <section className="task-list-container">
             <div className="task-list-header">
@@ -12,16 +13,9 @@ function TaskList({ tasks, onAddTaskClick }) {
 
             <ul className="tasks-ul">
                 {tasks.map(task => (
-                <li key={task.id} className="task-item">
-                    <input type="checkbox"/>
-                    <div className="task-details">
-                        <span className="task-title">{task.title}</span>
-                        <span className="task-due-date">{task.dueDate}</span>
-                    </div>
-                </li>
+                    <TaskItem key={task.id} task={task} onToggleTask={onToggleTask} />
                 ))}
             </ul>
-
         </section>
     );
 }

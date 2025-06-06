@@ -68,3 +68,12 @@
     font-size: 0.85rem;
     margin-top: 4px;
 }
+
+.task-item.completed .task-title {
+    text-decoration: line-through;
+    color: #888; /* Cambia el color del texto tachado */
+}
+
+.task-item.completed {
+    opacity: 0.7;
+}

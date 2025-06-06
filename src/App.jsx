@@ -5,11 +5,11 @@ import AddTaskModal from "./components/AddTaskModal.jsx";
 import './App.css';
 
 const initialTasks = [
-    { id:1, title: "Ir de compras", dueDate: "Vence hoy" },
-    { id:2, title: "Regreso de libro en biblioteca", dueDate: "Vence mañana" },
-    { id:3, title: "Recibos", dueDate: "Vence en 2 días" },
-    { id:4, title: "Plan de vacacion", dueDate: "Vence en 4 días" },
-    { id:5, title: "Renovar suscripcion", dueDate: "Vence mañana" }
+    { id:1, title: "Ir de compras", dueDate: "Vence hoy", completed: false },
+    { id:2, title: "Regreso de libro en biblioteca", dueDate: "Vence mañana", completed: false },
+    { id:3, title: "Recibos", dueDate: "Vence en 2 días", completed: false },
+    { id:4, title: "Plan de vacacion", dueDate: "Vence en 4 días", completed: false },
+    { id:5, title: "Renovar suscripcion", dueDate: "Vence mañana", completed: false },
 ];
 
 function App() {
@@ -22,11 +22,21 @@ function App() {
     const handleAddTask = (newTask) => {
         setTasks(prevTask => [newTask, ...prevTask]);
     }
+    const handleToggleTask = (taskId) => {
+        setTasks(prevTasks =>
+            prevTasks.map(task => {
+                if (task.id === taskId) {
+                    return {...task, completed: !task.completed};
+                }
+                return task;
+            })
+        );
+    };
 
     return (
         <div className="app-container">
             <Sidebar/>
-            <TaskList tasks={tasks} onAddTaskClick={handleOpenModal} />
+            <TaskList tasks={tasks} onAddTaskClick={handleOpenModal} onToggleTask={handleToggleTask}/>
             {isModalOpen && <AddTaskModal onClose={handleCloseModal} onAddTask={handleAddTask} />}
         </div>
     );
