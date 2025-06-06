@@ -1,5 +1,4 @@
-// 1. Recibe 'onDeleteTask'
-function TaskItem({ task, onToggleTask, onDeleteTask }) {
+function TaskItem({ task, onToggleTask, onDeleteTask, onEditTask }) {
     return (
         <li className={`task-item ${task.completed ? 'completed' : ''}`}>
             <input
@@ -7,7 +6,7 @@ function TaskItem({ task, onToggleTask, onDeleteTask }) {
                 checked={task.completed}
                 onChange={() => onToggleTask(task.id)}
             />
-            <div className="task-details">
+            <div className="task-details" onClick={() => onEditTask(task)}>
                 <span className="task-title">{task.title}</span>
                 <span className="task-due-date">{task.dueDate}</span>
             </div>

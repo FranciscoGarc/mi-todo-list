@@ -2,6 +2,7 @@ import { useState } from "react";
 import Sidebar from "./components/Sidebar.jsx";
 import TaskList from "./components/TaskList.jsx";
 import AddTaskModal from "./components/AddTaskModal.jsx";
+import EditTaskModal from "./components/EditTaskModal.jsx";
 import './App.css';
 
 const initialTasks = [
@@ -13,11 +14,16 @@ const initialTasks = [
 ];
 
 function App() {
+    // State to manage tasks
     const [tasks, setTasks] = useState(initialTasks);
     const [isModalOpen, setIsModalOpen] = useState(false);
-
+    const [editingTask, setEditingTask] = useState(null);
+    // Handlers for modal and task operations
     const handleOpenModal = () => setIsModalOpen(true);
     const handleCloseModal = () => setIsModalOpen(false);
+    // Handlers for editing tasks modal
+    const handleOpenEditModal = (task) => setEditingTask(task);
+    const handleCloseEditModal = () => setEditingTask(null);
 
     const handleAddTask = (newTask) => {
         setTasks(prevTask => [newTask, ...prevTask]);
@@ -38,6 +44,15 @@ function App() {
         );
     };
 
+    const handleUpdateTask = (taskId, updatedData) => {
+        setTasks(prevTasks =>
+            prevTasks.map(task =>
+                task.id === taskId ? { ...task, ...updatedData } : task
+            )
+        );
+        handleCloseEditModal(); // Cerramos el modal después de actualizar
+    };
+
     return (
         <div className="app-container">
             <Sidebar/>
@@ -46,8 +61,17 @@ function App() {
                 onAddTaskClick={handleOpenModal}
                 onToggleTask={handleToggleTask}
                 onDeleteTask={handleDeleteTask}
+                onEditTask={handleOpenEditModal}
             />
-            {isModalOpen && <AddTaskModal onClose={handleCloseModal} onAddTask={handleAddTask} />}
+            {isModalOpen &&
+                <AddTaskModal onClose={handleCloseModal} onAddTask={handleAddTask} />}
+            {editingTask && (
+                <EditTaskModal
+                    task={editingTask}
+                    onClose={handleCloseEditModal}
+                    onUpdateTask={handleUpdateTask}
+                />
+            )}
         </div>
     );
 }

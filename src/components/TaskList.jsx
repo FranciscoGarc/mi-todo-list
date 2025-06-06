@@ -1,7 +1,7 @@
 import './TaskList.css'
 import  TaskItem from './TaskItem'
 
-function TaskList({ tasks, onAddTaskClick, onToggleTask, onDeleteTask}) {
+function TaskList({ tasks, onAddTaskClick, onToggleTask, onDeleteTask, onEditTask}) {
     return (
         <section className="task-list-container">
             <div className="task-list-header">
@@ -10,7 +10,6 @@ function TaskList({ tasks, onAddTaskClick, onToggleTask, onDeleteTask}) {
                     Agregar una tarea <span className="arrow">→</span>
                 </button>
             </div>
-
             <ul className="tasks-ul">
                 {tasks.map(task => (
                     <TaskItem
@@ -18,6 +17,7 @@ function TaskList({ tasks, onAddTaskClick, onToggleTask, onDeleteTask}) {
                         task={task}
                         onToggleTask={onToggleTask}
                         onDeleteTask={onDeleteTask}
+                        onEditTask={onEditTask}
                     />
                 ))}
             </ul>
