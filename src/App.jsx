@@ -71,6 +71,24 @@ function App() {
         setLists(prevLists => [...prevLists, newList]);
         setActiveListId(newList.id);
     };
+    const editList = (listId, newName) => {
+        setLists(prevLists =>
+            prevLists.map(list => {
+                if (list.id === listId) {
+                    return { ...list, name: newName };
+                }
+                return list;
+            })
+        );
+    };
+    const deleteList = (listIdToDelete) => {
+        const newLists = lists.filter(list => list.id !== listIdToDelete);
+        setLists(newLists);
+        if (activeListId === listIdToDelete) {
+            setActiveListId(newLists.length > 0 ? newLists[0].id : null);
+        }
+    };
+
     const activeList = lists.find(list => list.id === activeListId);
     const [isAddModalOpen, setIsAddModalOpen] = useState(false);
     const [editingTask, setEditingTask] = useState(null);
@@ -122,6 +140,8 @@ function App() {
                 onOpenModal={() => setIsModalOpen(true)}
                 activeListId={activeListId}
                 setActiveListId={setActiveListId}
+                editList={editList}
+                deleteList={deleteList}
             />
             <TaskList
                 activeList={activeList}
