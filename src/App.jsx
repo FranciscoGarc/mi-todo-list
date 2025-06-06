@@ -15,75 +15,108 @@ const initialTasks = [
 ];
 */
 
+const initialData = [
+    {
+        id: 1,
+        name: 'Mis Tareas',
+        tasks: [
+            { id: 101, title: 'Finalizar proyecto de portafolio', dueDate: 'Vence hoy', completed: false },
+            { id: 102, title: 'Llamar al cliente', dueDate: 'Vence mañana', completed: true },
+        ],
+    },
+    {
+        id: 2,
+        name: 'Lista de compras',
+        tasks: [
+            { id: 201, title: 'Leche', dueDate: 'Vence hoy', completed: false },
+            { id: 202, title: 'Pan', dueDate: 'Vence mañana', completed: false },
+            { id: 203, title: 'Huevos', dueDate: 'Vence en 2 días', completed: false },
+        ],
+    },
+];
+
 function App() {
-    // State to manage tasks
-    const [tasks, setTasks] = useState(() => {
-        const savedTasks = localStorage.getItem('tasks_v1');
-        if (savedTasks) {
-            return JSON.parse(savedTasks);
-        }else {
-            return [];
-        }
+    const [lists, setLists] = useState(() => {
+        const savedData = localStorage.getItem('todo_app_data_v2');
+        return savedData ? JSON.parse(savedData) : initialData;
+    });
+    const [activeListId, setActiveListId] = useState(() => {
+        const savedData = localStorage.getItem('todo_app_data_v2');
+        return savedData ? JSON.parse(savedData)[0]?.id : 1;
     });
     useEffect(() => {
-        localStorage.setItem('tasks_v1', JSON.stringify(tasks));
-    }, [tasks]);
-    const [isModalOpen, setIsModalOpen] = useState(false);
-    const [editingTask, setEditingTask] = useState(null);
-    // Handlers for modal and task operations
-    const handleOpenModal = () => setIsModalOpen(true);
-    const handleCloseModal = () => setIsModalOpen(false);
-    // Handlers for editing tasks modal
-    const handleOpenEditModal = (task) => setEditingTask(task);
-    const handleCloseEditModal = () => setEditingTask(null);
+        localStorage.setItem('todo_app_data_v2', JSON.stringify(lists));
+    }, [lists]);
 
-    const handleAddTask = (newTask) => {
-        setTasks(prevTask => [newTask, ...prevTask]);
-    }
-    const handleToggleTask = (taskId) => {
-        setTasks(prevTasks =>
-            prevTasks.map(task => {
-                if (task.id === taskId) {
-                    return {...task, completed: !task.completed};
-                }
-                return task;
-            })
-        );
-    };
-    const handleDeleteTask = (taskId) => {
-        setTasks(prevTasks =>
-            prevTasks.filter(task => task.id !== taskId)
+    const activeList = lists.find(list => list.id === activeListId) || lists[0];
+    const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+    const [editingTask, setEditingTask] = useState(null);
+    const handleCloseEditModal = () => setEditingTask(null);
+    const handleAddTask = (newTaskData) => {
+        setLists(prevLists =>
+            prevLists.map(list =>
+                list.id === activeListId
+                    ? { ...list, tasks: [newTaskData, ...list.tasks] }
+                    : list
+            )
         );
     };
 
     const handleUpdateTask = (taskId, updatedData) => {
-        setTasks(prevTasks =>
-            prevTasks.map(task =>
-                task.id === taskId ? { ...task, ...updatedData } : task
+        setLists(prevLists =>
+            prevLists.map(list =>
+                list.id === activeListId
+                    ? { ...list, tasks: list.tasks.map(task => task.id === taskId ? { ...task, ...updatedData } : task) }
+                    : list
             )
         );
-        handleCloseEditModal(); // Cerramos el modal después de actualizar
+        handleCloseEditModal();
     };
 
+    const handleToggleTask = (taskId) => {
+        setLists(prevLists =>
+            prevLists.map(list =>
+                list.id === activeListId
+                    ? { ...list, tasks: list.tasks.map(task => task.id === taskId ? { ...task, completed: !task.completed } : task) }
+                    : list
+            )
+        );
+    };
+
+    const handleDeleteTask = (taskId) => {
+        setLists(prevLists =>
+            prevLists.map(list =>
+                list.id === activeListId
+                    ? { ...list, tasks: list.tasks.filter(task => task.id !== taskId) }
+                    : list
+            )
+        );
+    };
     return (
         <div className="app-container">
-            <Sidebar/>
+            <Sidebar
+                lists={lists}
+                activeListId={activeListId}
+                setActiveListId={setActiveListId}
+            />
             <TaskList
-                tasks={tasks}
-                onAddTaskClick={handleOpenModal}
+                activeList={activeList}
+                onAddTaskClick={() => setIsAddModalOpen(true)}
                 onToggleTask={handleToggleTask}
                 onDeleteTask={handleDeleteTask}
-                onEditTask={handleOpenEditModal}
+                onEditTask={(task) => setEditingTask(task)}
             />
-            {isModalOpen &&
-                <AddTaskModal onClose={handleCloseModal} onAddTask={handleAddTask} />}
-            {editingTask && (
+            {isAddModalOpen &&
+                <AddTaskModal
+                    onClose={() => setIsAddModalOpen(false)}
+                    onAddTask={handleAddTask}
+                />}
+            {editingTask &&
                 <EditTaskModal
                     task={editingTask}
-                    onClose={handleCloseEditModal}
+                    onClose={() => setEditingTask(null)}
                     onUpdateTask={handleUpdateTask}
-                />
-            )}
+                />}
         </div>
     );
 }

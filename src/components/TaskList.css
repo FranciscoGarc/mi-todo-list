@@ -1,15 +1,13 @@
-/* src/components/TaskList.css */
-
 .task-list-container {
     flex-grow: 1;
     padding: 32px;
-    background-color: #121212; /* Mantenemos el fondo oscuro principal */
+    background-color: #121212;
 }
 
 .task-list-header {
     display: flex;
-    justify-content: space-between; /* Pone el título a la izquierda y el botón a la derecha */
-    align-items: center; /* Los alinea verticalmente en el centro */
+    justify-content: space-between;
+    align-items: center;
     margin-bottom: 24px;
 }
 
@@ -29,7 +27,7 @@
     cursor: pointer;
     display: flex;
     align-items: center;
-    gap: 8px; /* Espacio entre el texto y la flecha */
+    gap: 8px;
 }
 
 .tasks-ul {
@@ -71,7 +69,7 @@
 
 .task-item.completed .task-title {
     text-decoration: line-through;
-    color: #888; /* Cambia el color del texto tachado */
+    color: #888;
 }
 
 .task-item.completed {
@@ -85,10 +83,10 @@
     font-size: 1.4rem;
     font-weight: bold;
     cursor: pointer;
-    margin-left: auto; /* Alinea el botón a la derecha */
+    margin-left: auto;
     transition: color 0.2s;
 }
 
 .delete-button:hover {
-    color: #E57373; /* Cambia el color al pasar el mouse */
+    color: #E57373;
 }
