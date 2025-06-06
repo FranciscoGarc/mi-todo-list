@@ -1,4 +1,5 @@
-function TaskItem({task, onToggleTask}) {
+// 1. Recibe 'onDeleteTask'
+function TaskItem({ task, onToggleTask, onDeleteTask }) {
     return (
         <li className={`task-item ${task.completed ? 'completed' : ''}`}>
             <input
@@ -10,6 +11,12 @@ function TaskItem({task, onToggleTask}) {
                 <span className="task-title">{task.title}</span>
                 <span className="task-due-date">{task.dueDate}</span>
             </div>
+            <button
+                className="delete-button"
+                onClick={() => onDeleteTask(task.id)}
+            >
+                &times;
+            </button>
         </li>
     );
 }

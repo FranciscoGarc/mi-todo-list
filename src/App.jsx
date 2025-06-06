@@ -32,11 +32,21 @@ function App() {
             })
         );
     };
+    const handleDeleteTask = (taskId) => {
+        setTasks(prevTasks =>
+            prevTasks.filter(task => task.id !== taskId)
+        );
+    };
 
     return (
         <div className="app-container">
             <Sidebar/>
-            <TaskList tasks={tasks} onAddTaskClick={handleOpenModal} onToggleTask={handleToggleTask}/>
+            <TaskList
+                tasks={tasks}
+                onAddTaskClick={handleOpenModal}
+                onToggleTask={handleToggleTask}
+                onDeleteTask={handleDeleteTask}
+            />
             {isModalOpen && <AddTaskModal onClose={handleCloseModal} onAddTask={handleAddTask} />}
         </div>
     );

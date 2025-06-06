@@ -1,7 +1,7 @@
 import './TaskList.css'
 import  TaskItem from './TaskItem'
 
-function TaskList({ tasks, onAddTaskClick, onToggleTask}) {
+function TaskList({ tasks, onAddTaskClick, onToggleTask, onDeleteTask}) {
     return (
         <section className="task-list-container">
             <div className="task-list-header">
@@ -13,7 +13,12 @@ function TaskList({ tasks, onAddTaskClick, onToggleTask}) {
 
             <ul className="tasks-ul">
                 {tasks.map(task => (
-                    <TaskItem key={task.id} task={task} onToggleTask={onToggleTask} />
+                    <TaskItem
+                        key={task.id}
+                        task={task}
+                        onToggleTask={onToggleTask}
+                        onDeleteTask={onDeleteTask}
+                    />
                 ))}
             </ul>
         </section>
