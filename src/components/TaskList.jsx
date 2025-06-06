@@ -2,8 +2,14 @@ import './TaskList.css'
 import  TaskItem from './TaskItem.jsx'
 
 function TaskList({ activeList, onAddTaskClick, onToggleTask, onDeleteTask, onEditTask}) {
-    if (!activeList){
-        return <div className="task-list-container">Selecciona una lista o crea una nueva</div>;
+    if (!activeList) {
+        return (
+            <main className="task-list-container">
+                <div className="task-list-header">
+                    <h2>Selecciona o crea una lista</h2>
+                </div>
+            </main>
+        );
     }
     return (
         <section className="task-list-container">

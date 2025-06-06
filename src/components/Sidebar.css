@@ -50,3 +50,8 @@
 .new-list-button:hover {
     background-color: #363475;
 }
+
+.list-item.active {
+    background-color: #3b3b3b;
+    font-weight: bold;
+}

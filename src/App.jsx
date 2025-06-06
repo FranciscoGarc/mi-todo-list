@@ -3,6 +3,7 @@ import Sidebar from "./components/Sidebar.jsx";
 import TaskList from "./components/TaskList.jsx";
 import AddTaskModal from "./components/AddTaskModal.jsx";
 import EditTaskModal from "./components/EditTaskModal.jsx";
+import AddListModal from "./components/AddListModal.jsx";
 import './App.css';
 
 /*
@@ -14,7 +15,7 @@ const initialTasks = [
     { id:5, title: "Renovar suscripcion", dueDate: "Vence mañana", completed: false },
 ];
 */
-
+/*
 const initialData = [
     {
         id: 1,
@@ -33,22 +34,44 @@ const initialData = [
             { id: 203, title: 'Huevos', dueDate: 'Vence en 2 días', completed: false },
         ],
     },
-];
+];*/
 
 function App() {
     const [lists, setLists] = useState(() => {
-        const savedData = localStorage.getItem('todo_app_data_v2');
-        return savedData ? JSON.parse(savedData) : initialData;
+        const savedLists = localStorage.getItem('todoLists');
+        if (savedLists) {
+            return JSON.parse(savedLists);
+        } else {
+            return [
+                { id: 1, name: 'Lista de Tareas Principal', tasks: [] }
+            ];
+        }
     });
     const [activeListId, setActiveListId] = useState(() => {
-        const savedData = localStorage.getItem('todo_app_data_v2');
-        return savedData ? JSON.parse(savedData)[0]?.id : 1;
+        const savedActiveListId = localStorage.getItem('activeListId');
+        if (savedActiveListId) {
+            return JSON.parse(savedActiveListId);
+        } else if (lists.length > 0) {
+            return lists[0].id;
+        } else {
+            return null;
+        }
     });
+    const [isModalOpen, setIsModalOpen] = useState(false);
     useEffect(() => {
-        localStorage.setItem('todo_app_data_v2', JSON.stringify(lists));
-    }, [lists]);
-
-    const activeList = lists.find(list => list.id === activeListId) || lists[0];
+        localStorage.setItem('todoLists', JSON.stringify(lists));
+        localStorage.setItem('activeListId', JSON.stringify(activeListId));
+    }, [lists, activeListId]);
+    const addList = (listName) => {
+        const newList = {
+            id: Date.now(),
+            name: listName,
+            tasks: []
+        };
+        setLists(prevLists => [...prevLists, newList]);
+        setActiveListId(newList.id);
+    };
+    const activeList = lists.find(list => list.id === activeListId);
     const [isAddModalOpen, setIsAddModalOpen] = useState(false);
     const [editingTask, setEditingTask] = useState(null);
     const handleCloseEditModal = () => setEditingTask(null);
@@ -96,6 +119,7 @@ function App() {
         <div className="app-container">
             <Sidebar
                 lists={lists}
+                onOpenModal={() => setIsModalOpen(true)}
                 activeListId={activeListId}
                 setActiveListId={setActiveListId}
             />
@@ -117,6 +141,11 @@ function App() {
                     onClose={() => setEditingTask(null)}
                     onUpdateTask={handleUpdateTask}
                 />}
+            {isModalOpen && (
+                <AddListModal
+                    onAddList={addList}
+                    onClose={() => setIsModalOpen(false)}
+                />)}
         </div>
     );
 }
