@@ -1,5 +1,6 @@
 import './Sidebar.css'
 import React, { useState } from 'react';
+import { PencilSimple, Trash } from '@phosphor-icons/react';
 
 const Sidebar = ({ lists, onOpenModal, activeListId, setActiveListId, editList, deleteList }) => {
     const [editingListId, setEditingListId] = useState(null);
@@ -47,8 +48,12 @@ const Sidebar = ({ lists, onOpenModal, activeListId, setActiveListId, editList, 
                             <>
                                 <span className="list-name">{list.name}</span>
                                 <div className="list-item-actions">
-                                    <button onClick={(e) => {e.stopPropagation(); handleEditClick(list)}} className="action-button">✏️</button>
-                                    <button onClick={(e) => handleDeleteClick(e, list.id)} className="action-button">🗑️</button>
+                                    <button onClick={(e) => {e.stopPropagation(); handleEditClick(list)}} className="action-button">
+                                        <PencilSimple size={18} />
+                                    </button>
+                                    <button onClick={(e) => handleDeleteClick(e, list.id)} className="action-button">
+                                        <Trash size={18} />
+                                    </button>
                                 </div>
                             </>
                         )}
