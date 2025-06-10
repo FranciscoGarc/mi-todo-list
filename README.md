@@ -1,12 +1,55 @@
-# React + Vite
+# Mi Lista de Tareas
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Esta aplicación es un gestor de listas de tareas construido con **React** y configurado mediante **Vite**. Permite organizar múltiples listas, agregar tareas con fechas de vencimiento y marcarlas como completadas. Los datos se almacenan en el navegador mediante `localStorage` para conservar la información entre sesiones.
 
-Currently, two official plugins are available:
+## Características principales
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- Crear, editar y eliminar **listas de tareas** desde la barra lateral.
+- Añadir, actualizar, marcar como completadas o borrar **tareas** dentro de la lista activa.
+- Uso de **ventanas modales** para crear nuevas listas o tareas y para editar tareas existentes.
+- Interfaz dividida en una barra lateral con las listas y un panel principal con las tareas de la lista seleccionada.
+- Persistencia de datos en `localStorage`.
 
-## Expanding the ESLint configuration
+## Instalación y uso
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+1. Clona este repositorio y entra en la carpeta del proyecto.
+2. Instala las dependencias:
+   ```bash
+   npm install
+   ```
+3. Inicia el entorno de desarrollo con Vite:
+   ```bash
+   npm run dev
+   ```
+4. Para generar la versión de producción ejecuta:
+   ```bash
+   npm run build
+   ```
+5. Si quieres previsualizar la build resultante utiliza:
+   ```bash
+   npm run preview
+   ```
+
+### Linting
+
+Puedes ejecutar ESLint con el script:
+```bash
+npm run lint
+```
+
+## Estructura básica del proyecto
+
+```
+├── public/             # Archivos estáticos
+├── src/
+│   ├── components/     # Componentes React (Sidebar, TaskList, modales, etc.)
+│   ├── App.jsx         # Componente principal de la aplicación
+│   ├── main.jsx        # Punto de entrada que monta la app
+│   └── ...
+├── index.html          # Plantilla HTML
+└── vite.config.js      # Configuración de Vite
+```
+
+## Licencia
+
+Este proyecto se distribuye bajo la licencia MIT.
